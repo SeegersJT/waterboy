@@ -1,17 +1,23 @@
 import mongoose, { Schema } from "mongoose";
 
-const productSchema = new mongoose.Schema(
+const countrySchema = new mongoose.Schema(
   {
-    product: {
+    country: {
       type: String,
       required: true,
+      unique: true,
     },
-    product_type_id: {
-      type: Schema.Types.ObjectId,
-      ref: "ProductType",
+    country_code: {
+      type: String,
       required: true,
+      unique: true,
     },
-    product_price: {
+    country_dial_code: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    max_phone_number_length: {
       type: Number,
       required: true,
     },
@@ -31,6 +37,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model("Product", productSchema);
+const Country = mongoose.model("Country", countrySchema);
 
-export default Product;
+export default Country;

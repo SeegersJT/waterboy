@@ -1,8 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const oneTimePinSchema = new mongoose.Schema(
   {
-    product_type: {
+    confirmation_token_id: {
+      type: Schema.Types.ObjectId,
+      ref: "ConfirmationToken",
+      required: true,
+    },
+    one_time_pin: {
       type: String,
       required: true,
     },
@@ -22,6 +27,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const OneTimePin = mongoose.model("OneTimePin", oneTimePinSchema);
 
-export default ProductType;
+export default OneTimePin;

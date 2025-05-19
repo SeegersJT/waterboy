@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const genderSchema = new mongoose.Schema(
   {
-    product_type: {
+    gender: {
       type: String,
       required: true,
     },
@@ -22,6 +22,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const Gender = mongoose.model("Gender", genderSchema);
 
-export default ProductType;
+export default Gender;

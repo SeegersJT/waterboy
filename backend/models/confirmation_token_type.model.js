@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const confirmationTokenTypeSchema = new mongoose.Schema(
   {
-    product_type: {
+    confirmation_token_type: {
       type: String,
       required: true,
     },
@@ -22,6 +22,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const ConfirmationTokenType = mongoose.model("ConfirmationTokenType", confirmationTokenTypeSchema);
 
-export default ProductType;
+export default ConfirmationTokenType;

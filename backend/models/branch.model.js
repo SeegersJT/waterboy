@@ -1,9 +1,20 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const branchSchema = new mongoose.Schema(
   {
-    product_type: {
+    branch: {
       type: String,
+      required: true,
+      unique: true,
+    },
+    branch_abbreviation: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    country_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Country",
       required: true,
     },
     createdBy: {
@@ -22,6 +33,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const Branch = mongoose.model("Branch", branchSchema);
 
-export default ProductType;
+export default Branch;

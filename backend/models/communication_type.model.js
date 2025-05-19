@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const communicationTypeSchema = new mongoose.Schema(
   {
-    product_type: {
+    communication_type: {
       type: String,
       required: true,
     },
@@ -22,6 +22,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const CommunicationType = mongoose.model("CommunicationType", communicationTypeSchema);
 
-export default ProductType;
+export default CommunicationType;

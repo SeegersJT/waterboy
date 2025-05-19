@@ -1,9 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const passwordSchema = new mongoose.Schema(
   {
-    product_type: {
-      type: String,
+    password: {
+      type: TEXT,
       required: true,
     },
     createdBy: {
@@ -22,6 +22,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const Password = mongoose.model("Password", passwordSchema);
 
-export default ProductType;
+export default Password;

@@ -1,9 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-const productTypeSchema = new mongoose.Schema(
+const communicationMethodSchema = new mongoose.Schema(
   {
-    product_type: {
-      type: String,
+    communication_method: {
+      type: Schema.Types.ObjectId,
+      ref: "CommunicationMethod",
       required: true,
     },
     createdBy: {
@@ -22,6 +23,6 @@ const productTypeSchema = new mongoose.Schema(
   }
 );
 
-const ProductType = mongoose.model("ProductType", productTypeSchema);
+const CommunicationMethod = mongoose.model("CommunicationMethod", communicationMethodSchema);
 
-export default ProductType;
+export default CommunicationMethod;

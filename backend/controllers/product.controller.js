@@ -1,10 +1,14 @@
+import mongoose from "mongoose";
+import { StatusCode } from "../constants/statusCodes.constant.js";
 import Product from "../models/Product.model.js";
 import { handleError, handleSuccess } from "../utils/responseHandler.js";
+import { validateBodyAgainstSchema } from "../utils/validateBodyAgainsSchema.js";
+import { ValidationMode } from "../constants/validateModes.constant.js";
 
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
-    return handleSuccess(res, products, 'All products retrieved');
+    return handleSuccess(res, products, "All products retrieved");
   } catch (error) {
     return handleError(res, error);
   }
@@ -17,7 +21,7 @@ export const getProduct = async (req, res) => {
     const product = await Product.findById(id);
 
     res.status(200).json({ success: true, data: product });
-    return handleSuccess(res, product, 'Product retrieved');
+    return handleSuccess(res, product, "Product retrieved");
   } catch (error) {
     return handleError(res, error);
   }
@@ -26,18 +30,33 @@ export const getProduct = async (req, res) => {
 export const insertProduct = async (req, res) => {
   const product = req.body;
 
-  const requiredFields = getRequiredFieldsFromSchema(Product.schema);
+  const { isValid, missingFields, extraFields } = validateBodyAgainstSchema(
+    product,
+    Product.schema
+  );
 
-  const newProduct = new Product(product);
+  if (!isValid) {
+    let message = "";
+    if (missingFields.length > 0) {
+      message += `Missing fields: ${missingFields.join(", ")}. `;
+    }
+    if (extraFields.length > 0) {
+      message += `Invalid fields: ${extraFields.join(", ")}.`;
+    }
+
+    return handleError(res, null, message.trim(), StatusCode.BAD_REQUEST);
+  }
 
   try {
-    await newProduct.save();
-
-    res.status(201).json({ success: true, data: newProduct });
-    console.info("Successfully Inserted Product");
+    const newProduct = await new Product(product).save();
+    return handleSuccess(
+      res,
+      newProduct,
+      "Product Created",
+      StatusCode.CREATED
+    );
   } catch (error) {
-    console.error("Error in Create Product", error.message);
-    res.status(500).json({ success: false, message: "Server Error" });
+    return handleError(res, error);
   }
 };
 
@@ -47,32 +66,48 @@ export const updateProduct = async (req, res) => {
   const product = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid Product ID" });
+    return handleError(res, null, 'Invalid Product ID', StatusCode.BAD_REQUEST);
+  }
+
+  const { isValid, extraFields } = validateBodyAgainstSchema(product, Product.schema, ValidationMode.UPDATE);
+
+  if (!isValid) {
+    const message = `Invalid fields: ${extraFields.join(', ')}`;
+    return handleError(res, null, message, StatusCode.BAD_REQUEST);
   }
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, product, {
       new: true,
+      runValidators: true,
     });
 
-    res.status(200).json({ success: true, data: updatedProduct });
+    if (!updatedProduct) {
+      return handleError(res, null, 'Product not found', StatusCode.NOT_FOUND);
+    }
+
+    return handleSuccess(res, updatedProduct, 'Product updated');
   } catch (error) {
-    console.error("Error Fetching Products", error.message);
-    res.status(500).json({ success: false, message: "Server ERROR" });
+    return handleError(res, error);
   }
 };
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
-  try {
-    await Product.findByIdAndDelete(id);
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return handleError(res, null, 'Invalid Product ID', StatusCode.BAD_REQUEST);
+  }
 
-    res.status(200).json({ success: true, message: "Product Deleted" });
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return handleError(res, null, 'Product not found', StatusCode.NOT_FOUND);
+    }
+
+    return handleSuccess(res, null, 'Product deleted');
   } catch (error) {
-    console.log("error", error);
-    res.status(404).json({ success: false, message: error.message });
+    return handleError(res, error);
   }
 };

@@ -1,8 +1,6 @@
 import { ValidationMode } from "../constants/validateModes.constant.js";
 
-export const validateBodyAgainstSchema = (body, schema, mode = ValidationMode.CREATE) => {
-
-
+export const validateBodyAgainstSchema = (body, schema, mode = ValidationMode.INSERT) => {
   const schemaPaths = Object.keys(schema.paths).filter(
     (field) =>
       !field.startsWith("__") &&
@@ -17,7 +15,7 @@ export const validateBodyAgainstSchema = (body, schema, mode = ValidationMode.CR
   );
 
   const missingFields =
-    mode === ValidationMode.CREATE
+    mode === ValidationMode.INSERT
       ? requiredFields.filter((field) => body[field] === undefined)
       : [];
 

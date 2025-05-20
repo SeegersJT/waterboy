@@ -1,4 +1,4 @@
 export const ValidationMode = {
-  CREATE: 'create',
+  INSERT: 'insert',
   UPDATE: 'update',
 };

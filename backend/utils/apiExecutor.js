@@ -1,4 +1,4 @@
-import { StatusCode } from "../constants/statusCodes.constant.js";
+import { StatusCode } from "./constants/statusCodes.constant.js";
 import { handleError, handleSuccess } from "./responseHandler.js";
 
 export const executeApi = async ({

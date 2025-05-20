@@ -1,22 +1,22 @@
 // TODO: Add API Logger
 
-import { StatusCode } from "../constants/statusCodes.constant.js";
+import { StatusCode } from "./constants/statusCodes.constant.js";
 
 export const handleSuccess = (
   res,
   data = null,
-  message = 'Success',
+  message = "Success",
   statusCode = StatusCode.OK,
   meta = null,
   requestId = null
 ) => {
   const response = {
-    status: 'Success',
+    status: "Success",
     code: statusCode,
     message,
     timestamp: new Date().toISOString(),
     ...(requestId && { requestId }),
-    ...(data !== null && { data }),
+    ...{ data },
     ...(meta && { meta }),
   };
 
@@ -26,14 +26,14 @@ export const handleSuccess = (
 export const handleError = (
   res,
   error = null,
-  message = 'Internal Server Error',
+  message = "Internal Server Error",
   statusCode = StatusCode.INTERNAL_SERVER_ERROR,
   requestId = null
 ) => {
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = process.env.NODE_ENV === "development";
 
   const response = {
-    status: 'Error',
+    status: "Error",
     code: statusCode,
     message,
     timestamp: new Date().toISOString(),

@@ -33,12 +33,12 @@ export const registerUserService = async ({ body }) => {
 
   console.log("systemUser", systemUser);
 
-  const hashedPassword = await bcrypt.hash(body.password, 10);
+  const passwordHashed = await bcrypt.hash(body.password, 10);
 
-  console.log("hashedPassword", hashedPassword);
+  console.log("passwordHashed", passwordHashed);
 
   const newPasswordHashed = await insertPasswordService({
-    hashedPassword,
+    password_hashed: passwordHashed,
     createdBy: systemUser._id,
     updatedBy: systemUser._id,
   });

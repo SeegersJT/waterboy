@@ -15,7 +15,7 @@ export const getAllPasswordsService = async () => await findAllPasswords();
 
 export const getPasswordService = async (id) => await findPasswordById(id);
 
-export const insertPasswordService = async ({ body }) => {
+export const insertPasswordService = async (body) => {
   validateSchemaRequestBody({
     body,
     schema: Password.schema,

@@ -2,7 +2,7 @@
 
 import { StatusCode } from "./constants/statusCodes.constant.js";
 
-export const handleSuccess = (
+export const handleSuccessResponse = (
   res,
   data = null,
   message = "Success",
@@ -23,7 +23,7 @@ export const handleSuccess = (
   return res.status(statusCode).json(response);
 };
 
-export const handleError = (
+export const handleErrorResponse = (
   res,
   error = null,
   message = "Internal Server Error",

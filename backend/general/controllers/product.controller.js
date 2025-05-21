@@ -8,13 +8,26 @@ import {
   updateProductService,
 } from "../services/product.service.js";
 
-export const getAllProducts = (req, res) => {
-  executeApi({
-    req,
-    res,
-    logic: getAllProductsService,
-    successMessage: "All Products Retrieved",
+const getProductMetadata = async (products) => {
+  return products.map(p => {
+    return {
+      product_id: p.id
+    }
+  })
+}
+
+export const getAllProducts = async (req, res) => {
+  const all_products = await getAllProductsService();
+  const all_product_meta = await getProductMetadata(all_products);
+
+  const mapped_products = all_products.map(p => {
+    p.meta = all_product_meta.find(_p => _p.product_id == p.id);
+    return p;
   });
+
+  if(false) return res.fail('That email is already in use', { code: 418 });
+
+  return res.succeed(mapped_products, { message: 'Here you go', code: 418 });
 };
 
 export const getProduct = (req, res) => {

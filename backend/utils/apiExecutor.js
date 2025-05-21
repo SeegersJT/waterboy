@@ -1,5 +1,5 @@
 import { StatusCode } from "./constants/statusCodes.constant.js";
-import { handleError, handleSuccess } from "./responseHandler.js";
+import { handleErrorResponse, handleSuccessResponse } from "./responseHandler.js";
 
 export const executeApi = async ({
   req,
@@ -10,8 +10,8 @@ export const executeApi = async ({
 }) => {
   try {
     const data = await logic(req);
-    return handleSuccess(res, data, successMessage, statusCode);
+    return handleSuccessResponse(res, data, successMessage, statusCode);
   } catch (error) {
-    return handleError(res, error);
+    return handleErrorResponse(res, error);
   }
 };

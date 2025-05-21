@@ -9,6 +9,10 @@ import {
 
 const productRouter = express.Router();
 
+productRouter.get('/error', () => {
+  throw new Error('This was manufactured to fail');
+})
+
 productRouter.get("/", getAllProducts);
 productRouter.get("/:id", getProduct);
 productRouter.post("/", insertProduct);
